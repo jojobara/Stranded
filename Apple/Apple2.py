@@ -26,7 +26,7 @@ def get_positions():
 
 def drag(box) :
     gui.moveTo(box.left,box.top)
-    gui.drag(box.width+10,box.height+10,duration=1.00)
+    gui.drag(box.width+10,box.height+10,duration=0.50)
     time.sleep(0.01)
     return
 
