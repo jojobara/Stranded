@@ -1,40 +1,42 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Apr 22 17:13:05 2024
-
-@author: d00r0
-"""
-
 import matplotlib.pyplot as plt
 
-import numpy as np
+x = [3,5]
 
-v = [0, 2]
+y = [5,3]
+z = [1,2]
 
-x = 10
+plt.arrow(z[0], z[1], y[0]-z[0], y[1]-z[1])
 
-y = 10
+ans = [0,0]
 
-def myProjection(v):
-  v = np.array(v)
-  xy = np.array([x, y])    
-  vprime = xy * np.dot(v, xy) / np.dot(xy, xy)
-  return vprime
-vprime = myProjection(v)
+def MyProjection(x,y,z):
+  slope1 = (y[1] - z[1]) / (y[0] - z[0])
+  slope2 = -1/slope1
+  
+  v1 = x[1] - (x[0]*slope2)
+  v2 = y[1] - (slope1*y[0])
+  
+  print(slope1,v1,v2)
+  
+  ans[0] = (v1-v2)/(slope1-slope2)
+  ans[1] = slope1*ans[0] + v2
+  
+  return ans
 
-plt.figure(figsize = (7,7))
-plt.xlim(0,10)          
-plt.ylim(0,10)
-plt.xticks(ticks=np.arange(0, 10, step=1))
-plt.yticks(ticks=np.arange(0, 10, step=1))
+ans = MyProjection(x,y,z)
+print(ans)
 
-plt.arrow(0, 0,x, y, color = 'red', alpha = 0.5)
-plt.arrow(v[0], v[1],vprime[0]-v[0], vprime[1]-v[1], color = 'orange', alpha = 0.5)
+plt.scatter(x[0], x[1])
+plt.scatter(y[0], y[1])
+plt.scatter(z[0], z[1])
+plt.text(x[0], x[1], 'X')
+plt.text(y[0], y[1], 'Y')
+plt.text(z[0], z[1], 'Z')
 
-plt.scatter(vprime[0], vprime[1])
-plt.scatter(v[0], v[1])
+plt.arrow(x[0], x[1], ans[0]-x[0], ans[1]-x[1])
 
-print(vprime[0], vprime[1])
-print((vprime[0]**2+vprime[1]**2)**(1/2))
+def Pythagoras(a,b) :
+    c = (a**2+b**2)**(1/2)
+    return c
 
-plt.plot(x, y)
+print(Pythagoras(ans[0]-x[0], ans[1]-x[1]))
